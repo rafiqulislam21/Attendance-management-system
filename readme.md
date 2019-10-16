@@ -50,6 +50,6 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 The Laravel framework is open-sourced software licensed under the [MIT license](http://opensource.org/licenses/MIT).
 # Attendance-management-system
-doveloped with:
-Frontend: Bootstrap, HTML, CSS, AJAX, Javascript
-Backend: PHP Laravel framework.
+##doveloped with:
+##Frontend: Bootstrap, HTML, CSS, AJAX, Javascript
+##Backend: PHP Laravel framework.
