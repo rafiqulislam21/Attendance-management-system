@@ -56,7 +56,7 @@ Employee-list
                     <div class="modal-body">
                       <center><h1 class="display-3"><i class="far fa-user"></i></h1></center>
                       <div class="form-group">
-                        <h1 class="display-4">{{$employee['employee_name']}}</h1>
+                        <h1>{{$employee['employee_name']}}</h1>
                         <p >Employee Id: {{$employee['employee_id']}}</p>
                         <p >Designation: {{$employee['designation']}}</p>
                         <p >Start date: {{$employee['start_date']}}</p>

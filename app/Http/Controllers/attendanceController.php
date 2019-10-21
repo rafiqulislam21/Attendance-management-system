@@ -94,39 +94,27 @@ class attendanceController extends Controller
     }
     // echo "<pre>";
     // print_r($attendanceDetails);die;
+    $status = '';
 
-    return view('employee_attendance_details', compact('attendanceDetails','supervisors'));
+    return view('employee_attendance_details', compact('attendanceDetails','supervisors','status'));
   }
   //new added
   public function attendancedetailsForSupervisor($user_id){
-    // $today = date('d');
-    // $attendanceDetailsAll = Attendance::where('supervisor_id',$user_id)->where('day',$today)->get()->toArray();
-    //
-    //
-    // $i=0;
-    // foreach ($attendanceDetailsAll as  $value) {
-    //   $attendanceDetails[$i]['employee_id'] = $value['employee_id'];
-    //   $attendanceDetails[$i]['employee_name'] = $value['employee_name'];
-    //   // DB::table('tablename')->distinct('name')->count('name');
-    //   $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->distinct('day')->count('day');
-    //   $attendanceDetails[$i]['total_present_day'] = DB::table('_attendance')->where('status','present')->where('employee_id',$value['employee_id'])->count();
-    //   $attendanceDetails[$i]['total_absent_day'] = DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->count();
-    //   $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->count();
-    //
-    //   $i++;
-    // }
-    // echo "<pre>";
-    // print_r($attendanceDetails);die;
 
-    return view('employee_attendance_details_for_supervisors');
+    $status = '';
+
+    return view('employee_attendance_details_for_supervisors', compact('status'));
   }
 
   public function attendancedetailsByDay(Request $request){
+    $supervisors = User::where('user_type','!=','Admin')->get()->toArray();
+
     $day = $request->input('day_name');
     $month = $request->input('month_name');
     $year = $request->input('year_name');
     $supervisor_id = $request->input('supervisor_id');
     $attendanceDetailsAll;
+
     if ($day == 'all') {
 
       $attendanceDetailsAll = Attendance::select('employee_id','supervisor_id','employee_name','month','year')->where('month', $month)->where('year',$year)->where('supervisor_id',$supervisor_id)->distinct()->get()->toArray();
@@ -136,7 +124,10 @@ class attendanceController extends Controller
     }
 
     if ($attendanceDetailsAll==null) {
-      return 0;
+        $status = 'Attendance was not taken that day!';
+        return view('employee_attendance_details',compact('supervisors','status'));
+        // return redirect()->route('attendancedetails')->with('warning', 'Attendance was not taken that day!');
+
     }else {
       $i=0;
       foreach ($attendanceDetailsAll as $value) {
@@ -145,11 +136,15 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['employee_name'] = $value['employee_name'];
           $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->where('month',$month)->where('supervisor_id',$supervisor_id)->distinct('day')->count('day');
 
-         $attendanceDetails[$i]['employee_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count('comment');
+          $attendanceDetails[$i]['employee_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count('comment');
+          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('comment','!=',null)->get()->toArray();
 
           $attendanceDetails[$i]['total_present_day'] = DB::table('_attendance')->where('status','present')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_absent_day'] = (int)($attendanceDetails[$i]['total_late_day']/3) + DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
+
+          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->get()->toArray();
+          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->get()->toArray();
 
           $attendanceDetails[$i]['total_present_percentage'] = (int)(($attendanceDetails[$i]['total_present_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_late_percentage'] =(int) (($attendanceDetails[$i]['total_late_day']/$attendanceDetails[$i]["total_day"])*100);
@@ -160,6 +155,7 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['employee_id'] = $value['employee_id'];
           $attendanceDetails[$i]['employee_name'] = $value['employee_name'];
           $attendanceDetails[$i]['employee_comment'] = $value['comment'];
+          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('comment','!=',null)->get()->toArray();
 
           $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->where('day',$day)->where('supervisor_id',$supervisor_id)->distinct('day')->count('day');
 
@@ -167,6 +163,9 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_absent_day'] = (int)($attendanceDetails[$i]['total_late_day']/3) + DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
 
+          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->get()->toArray();
+          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->get()->toArray();
+          
           $attendanceDetails[$i]['total_present_percentage'] = (int)(($attendanceDetails[$i]['total_present_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_late_percentage'] = (int)(($attendanceDetails[$i]['total_late_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_absent_percentage'] =(int) (($attendanceDetails[$i]['total_absent_day']/$attendanceDetails[$i]["total_day"])*100);
@@ -175,8 +174,9 @@ class attendanceController extends Controller
         }
 
       }
-
-      return $attendanceDetails;
+      // echo "<pre>";
+      // print_r($attendanceDetails);die;
+      return view('employee_attendance_details_selected',compact('attendanceDetails', 'supervisors'));
     }
 
   }
@@ -189,6 +189,7 @@ class attendanceController extends Controller
     $month = $request->input('month_name');
     $year = $request->input('year_name');
     $attendanceDetailsAll;
+    // print_r("works");die;
     if ($day == 'all') {
 
       $attendanceDetailsAll = Attendance::select('employee_id','supervisor_id','employee_name','month','year')->where('month', $month)->where('year',$year)->where('supervisor_id',$user_id)->distinct()->get()->toArray();
@@ -198,7 +199,8 @@ class attendanceController extends Controller
     }
 
     if ($attendanceDetailsAll==null) {
-      return 0;
+      $status = 'Attendance was not taken that day!';
+      return view('employee_attendance_details_for_supervisors',compact('status'));
     }else {
       $i=0;
       foreach ($attendanceDetailsAll as $value) {
@@ -239,7 +241,7 @@ class attendanceController extends Controller
 
       }
 
-      return $attendanceDetails;
+      return view('employee_attendance_details_for_supervisors_selected',compact('attendanceDetails'));
     }
 
 

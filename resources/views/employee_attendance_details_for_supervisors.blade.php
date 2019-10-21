@@ -19,7 +19,7 @@ Employee-attendancee-details
     <i class="fas fa-clipboard-list"></i>
     Employee attendance details</div>
     <div class="card-body">
-      <form class="form-data" data-route="{{route('attendancedetailsByDaySupervisor',Auth::user()->user_id)}} " method="POST">
+      <form class="form-data" action="{{route('attendancedetailsByDaySupervisor',Auth::user()->user_id)}} " method="POST">
         {{csrf_field()}}
         <div class="row">
           <div class="col-md-3">
@@ -108,7 +108,7 @@ Employee-attendancee-details
        <div id="result"></div> -->
 
       <div class="table-responsive">
-        <table class="table table-bordered"  width="100%" cellspacing="0">
+        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>Id</th>
@@ -122,14 +122,22 @@ Employee-attendancee-details
           </thead>
 
           <tbody class="tbody">
-
+            @if($status != "")
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+              <!-- <strong>success!</strong> -->
+              {{$status}}
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            @endif
           </tbody>
         </table>
       </div>
     </div>
     <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
   </div>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript">
   $( function(){
     $('.form-data').submit(function(e){
@@ -169,35 +177,6 @@ Employee-attendancee-details
     });
   });
 
-  </script>
-
-  <!-- <script>
-    $(document).ready(function(){
-     load_data();
-
-     function load_data(query)
-     {
-      $.ajax({
-       url:"employee_attendance_details_for_supervisors.blade.php",
-       method:"POST",
-       data:{query:query},
-       success:function(data)
-       {
-        $('#result').html(data);
-       }
-      });
-     }
-     $('#search_text').keyup(function(){
-      var search = $(this).val();
-      if(search != '')
-      {
-       load_data(search);
-      }
-      else
-      {
-       load_data();
-      }
-     });
-    });
   </script> -->
+
   @endsection

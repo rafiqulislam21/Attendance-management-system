@@ -30,10 +30,12 @@ Employee-list
               <div class="row">
                 <div class="col-md-6">
                   <div class="form-group">
+
                     <label for="ex">Select Zone</label>
                     <select class="browser-default custom-select" name="zone_id" required>
                       <option value="">Select</option>
                       @foreach($zones as $zone)
+
                       <option value="{{$zone['zone_id']}}">{{$zone['zone_name']}}</option>
                       @endforeach
                     </select>

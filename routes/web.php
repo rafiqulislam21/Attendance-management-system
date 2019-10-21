@@ -25,6 +25,8 @@ Route::post('/attendanceeditSup', 'attendanceController@attendanceEditBySup')->n
 Route::get('/attendanceeditSup', 'attendanceController@attendanceEditBySup')->name('attendanceEditBySup')->middleware('auth');
 
 Route::get('/attendancedetails', 'attendanceController@attendancedetails')->name('attendancedetails')->middleware('auth');
+// Route::get('/attendancedetails-selected', 'attendanceController@attendancedetailsByDay')->name('attendancedetailsSelected')->middleware('auth');
+
 Route::get('/attendancedetails-for-supervisor/{user_id}', 'attendanceController@attendancedetailsForSupervisor')->name('attendancedetailsForSupervisor')->middleware('auth');
 Route::post('/attendancedetails-by-day', 'attendanceController@attendancedetailsByDay')->name('attendancedetailsByDay')->middleware('auth');
 Route::post('/attendancedetails-by-day-sup/{user_id}', 'attendanceController@attendancedetailsByDaySupervisor')->name('attendancedetailsByDaySupervisor')->middleware('auth');

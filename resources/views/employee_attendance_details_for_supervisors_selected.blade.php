@@ -19,10 +19,10 @@ Employee-attendancee-details
     <i class="fas fa-clipboard-list"></i>
     Employee attendance details</div>
     <div class="card-body">
-      <form class="form-data" action="{{route('attendancedetailsByDay')}} " method="POST">
+      <form class="form-data" action="{{route('attendancedetailsByDaySupervisor',Auth::user()->user_id)}} " method="POST">
         {{csrf_field()}}
         <div class="row">
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="ex">Day</label>
               <select class="browser-default custom-select" name="day_name" required>
@@ -82,7 +82,7 @@ Employee-attendancee-details
               </select>
             </div>
           </div>
-          <div class="col-md-2">
+          <div class="col-md-3">
             <div class="form-group">
               <label for="ex">Year</label>
               <select class="browser-default custom-select" name="year_name" required>
@@ -93,26 +93,22 @@ Employee-attendancee-details
               </select>
             </div>
           </div>
-          <div class="col-md-2">
-            <div class="form-group">
-              <label for="ex">Select Supervisor</label>
-              <select class="browser-default custom-select" name="supervisor_id" required>
-                <option value="">Select</option>
-                @foreach($supervisors as $supervisor)
-                <option value="{{$supervisor['user_id']}}">{{$supervisor['name']}}</option>
-                @endforeach
-              </select>
-            </div>
-          </div>
           <div class="col-md-3 pt-4">
             <button type="submit" class="btn btn-outline-primary">Show</button>
           </div>
         </div>
       </form>
 
+      <!-- <div class="form-group">
+        <div class="input-group">
+         <span class="input-group-addon">Search</span>
+         <input type="text" name="search_text" id="search_text" placeholder="Search by Customer Details" class="form-control" />
+        </div>
+       </div>
+       <div id="result"></div> -->
 
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered" id="dataTable"  width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>Id</th>
@@ -126,20 +122,25 @@ Employee-attendancee-details
           </thead>
 
           <tbody class="tbody">
-            @if($status != "")
-            <div class="alert alert-danger alert-dismissible fade show" role="alert">
-              <!-- <strong>success!</strong> -->
-              {{$status}}
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-            </div>
-            @endif
+            @foreach($attendanceDetails as $row)
+            <tr>
+              <td>{{$row['employee_id']}}</td>
+              <td>{{$row['employee_name']}}</td>
+              <td>{{$row['total_day']}}</td>
+              <td>{{$row['total_present_day']}}</td>
+              <td>{{$row['total_present_percentage']}} %</td>
+              <td>{{$row['total_late_day']}}</td>
+              <td>{{$row['total_late_percentage']}} %</td>
+              <td>{{$row['total_absent_day']}}</td>
+              <td>{{$row['total_absent_percentage']}} %</td>
+              <td>{{$row['employee_comment']}}</td>
+            </tr>
+            @endforeach
           </tbody>
         </table>
       </div>
     </div>
-
+    <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
   </div>
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript">
@@ -164,12 +165,16 @@ Employee-attendancee-details
             $.each(Response, function(key, value) {
               // console.log(value.employee_name);
 
-              $('.tbody').append('<tr class="dataShow"><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td><td>'+value.employee_comment+'</td></tr>')
+              $('.tbody').append('<tr><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td><td>'+value.employee_comment+'</td></tr>')
 
               });
           }
 
-
+          // $.each(Response, function() {
+          //   $.each(this, function(k, v) {
+          //     $('.tbody').append('<tr><td>'+v.employee_id+'</td><td>v["employee_name"]</td><td>v["total_day"]</td><td>v["total_present_day"]</td><td>v["total_late_day"]</td><td>v["total_absent_day"]</td></tr>')
+          //   });
+          // });
 
         }
       });
@@ -177,21 +182,7 @@ Employee-attendancee-details
     });
   });
 
-  $(document).on( "keyup", '#notice-search', function(){
-
-                    var txt = $(this).val();
-                    //console.log(txt.toUpperCase());
-
-                    $('.dataShow').each(function(){
-                      // alert("this works");
-                        if($(this).text().toUpperCase().indexOf(txt.toUpperCase()) != -1){
-                            $(this).show();
-
-
-                        }
-
-                    });
-                });
-
   </script> -->
+
+
   @endsection
