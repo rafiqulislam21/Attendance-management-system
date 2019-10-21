@@ -89,6 +89,7 @@ Employee-attendancee-details
                 <option value="">Select</option>
                 <option value="2019">2019</option>
                 <option value="2020">2020</option>
+                <option value="2021">2021</option>
               </select>
             </div>
           </div>
@@ -109,14 +110,9 @@ Employee-attendancee-details
         </div>
       </form>
 
-      <div class="col-md-6">
-        <div class="input-group mb-3">
-          <input type="text" class="form-control" id="notice-search"  placeholder="Search">
-        </div>
-      </div>
 
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered"  width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>Id</th>
@@ -125,25 +121,17 @@ Employee-attendancee-details
               <th colspan="2">Present</th>
               <th colspan="2">Late</th>
               <th colspan="2">Absent</th>
+              <th>Comment</th>
             </tr>
           </thead>
 
           <tbody class="tbody">
-            @foreach($attendanceDetails as $attendance)
-            <!-- <tr>
-              <td>{{$attendance['employee_id']}}</td>
-              <td>{{$attendance['employee_name']}}</td>
-              <td>{{$attendance['total_day']}}</td>
-              <td>{{$attendance['total_present_day']}}</td>
-              <td>{{$attendance['total_late_day']}}</td>
-              <td>{{$attendance['total_absent_day']}}</td>
-            </tr> -->
-            @endforeach
+          
           </tbody>
         </table>
       </div>
     </div>
-    <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
+   
   </div>
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
   <script type="text/javascript">
@@ -168,16 +156,12 @@ Employee-attendancee-details
             $.each(Response, function(key, value) {
               // console.log(value.employee_name);
 
-              $('.tbody').append('<tr class="dataShow"><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td></tr>')
+              $('.tbody').append('<tr class="dataShow"><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td><td>'+value.employee_comment+'</td></tr>')
 
               });
           }
 
-          // $.each(Response, function() {
-          //   $.each(this, function(k, v) {
-          //     $('.tbody').append('<tr><td>'+v.employee_id+'</td><td>v["employee_name"]</td><td>v["total_day"]</td><td>v["total_present_day"]</td><td>v["total_late_day"]</td><td>v["total_absent_day"]</td></tr>')
-          //   });
-          // });
+        
 
         }
       });

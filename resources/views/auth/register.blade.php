@@ -34,7 +34,7 @@ Admin Panel
 
                                 @if ($errors->has('name'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('name') }}</strong>
+                                        <strong class="text-danger">{{ $errors->first('name') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -48,7 +48,7 @@ Admin Panel
 
                                 @if ($errors->has('user_id'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('user_id') }}</strong>
+                                        <strong class="text-danger">{{ $errors->first('user_id') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -62,7 +62,7 @@ Admin Panel
 
                                 @if ($errors->has('email'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('email') }}</strong>
+                                        <strong class="text-danger">{{ $errors->first('email') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -83,7 +83,7 @@ Admin Panel
 
                                 @if ($errors->has('user_type'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('user_type') }}</strong>
+                                        <strong class="text-danger">{{ $errors->first('user_type') }}</strong>
                                     </span>
                                 @endif
                             </div>
@@ -97,7 +97,7 @@ Admin Panel
 
                                 @if ($errors->has('password'))
                                     <span class="help-block">
-                                        <strong>{{ $errors->first('password') }}</strong>
+                                        <strong class="text-danger">{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
                             </div>

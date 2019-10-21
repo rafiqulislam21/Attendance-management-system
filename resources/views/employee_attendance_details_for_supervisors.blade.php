@@ -89,6 +89,7 @@ Employee-attendancee-details
                 <option value="">Select</option>
                 <option value="2019">2019</option>
                 <option value="2020">2020</option>
+                <option value="2021">2021</option>
               </select>
             </div>
           </div>
@@ -107,7 +108,7 @@ Employee-attendancee-details
        <div id="result"></div> -->
 
       <div class="table-responsive">
-        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+        <table class="table table-bordered"  width="100%" cellspacing="0">
           <thead>
             <tr>
               <th>Id</th>
@@ -116,6 +117,7 @@ Employee-attendancee-details
               <th colspan="2">Present</th>
               <th colspan="2">Late</th>
               <th colspan="2">Absent</th>
+              <th>Comment</th>
             </tr>
           </thead>
 
@@ -150,7 +152,7 @@ Employee-attendancee-details
             $.each(Response, function(key, value) {
               // console.log(value.employee_name);
 
-              $('.tbody').append('<tr><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td></tr>')
+              $('.tbody').append('<tr><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td><td>'+value.employee_comment+'</td></tr>')
 
               });
           }

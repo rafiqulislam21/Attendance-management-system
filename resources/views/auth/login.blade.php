@@ -35,7 +35,7 @@
                                <select class="form-control" name="user_type" id="user_type" required>
                                    <option value="">Select Type</option>
                                    <option value="Admin">Admin</option>
-                                   <option value="user">user</option>
+                                   
                               
                                    @foreach($categories as $category)
                                    <option value="{{$category['zone_name']}}">{{$category['zone_name']}}</option>

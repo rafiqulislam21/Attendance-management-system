@@ -36,7 +36,7 @@ Employee-attendancee
                 <th class="text-center">Id</th>
                 <th class="text-center">Name</th>
                 <th class="text-center">Attendance</th>
-
+               
 
               </tr>
             </thead>
@@ -76,7 +76,7 @@ Employee-attendancee
                 </div>
 
                <div class=" custom-control-inline">
-
+                
                  <input class="form-control form-control-sm" type="text" placeholder="Comment" name="attendance_comment[]{{$employee['employee_id']}}" >
                 </div>
 
