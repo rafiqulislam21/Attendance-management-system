@@ -137,46 +137,5 @@ Employee-attendancee-details
     </div>
     <!-- <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div> -->
   </div>
-  <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-  <script type="text/javascript">
-  $( function(){
-    $('.form-data').submit(function(e){
-      var route = $('.form-data').data('route');
-      var form_data = $(this);
-
-
-      $.ajax({
-        type:'POST',
-        url:route,
-        data:form_data.serialize(),
-        success:function(Response){
-
-          if (Response==0) {
-            // console.log(Response);
-            $(".tbody").empty();
-            alert("Attendance was not taken that day!");
-          }else {
-            $(".tbody").empty();
-            $.each(Response, function(key, value) {
-              // console.log(value.employee_name);
-
-              $('.tbody').append('<tr><td>'+value.employee_id+'</td><td>'+value.employee_name+'</td><td>'+value.total_day+'</td><td>'+value.total_present_day+'</td><td>'+value.total_present_percentage+' %</td><td>'+value.total_late_day+'</td><td>'+value.total_late_percentage+' %</td><td>'+value.total_absent_day+'</td><td>'+value.total_absent_percentage+' %</td><td>'+value.employee_comment+'</td></tr>')
-
-              });
-          }
-
-          // $.each(Response, function() {
-          //   $.each(this, function(k, v) {
-          //     $('.tbody').append('<tr><td>'+v.employee_id+'</td><td>v["employee_name"]</td><td>v["total_day"]</td><td>v["total_present_day"]</td><td>v["total_late_day"]</td><td>v["total_absent_day"]</td></tr>')
-          //   });
-          // });
-
-        }
-      });
-      e.preventDefault();
-    });
-  });
-
-  </script> -->
-
+  
   @endsection

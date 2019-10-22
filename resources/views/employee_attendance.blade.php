@@ -36,7 +36,7 @@ Employee-attendancee
                 <th class="text-center">Id</th>
                 <th class="text-center">Name</th>
                 <th class="text-center">Attendance</th>
-               
+
 
               </tr>
             </thead>
@@ -58,27 +58,50 @@ Employee-attendancee
                 </div> -->
                 <!-- Default unchecked -->
                 <!-- Default inline 1-->
+                @if(Auth::user()->user_type!='Merchandiser')
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="present{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="present"  required="true" checked>
+                    <label class="custom-control-label" for="present{{$employee['employee_id']}}">Present</label>
+                  </div>
+
+                  <!-- Default inline 2-->
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="absent{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="absent" required="true" >
+                    <label class="custom-control-label" for="absent{{$employee['employee_id']}}">Absent</label>
+                  </div>
+
+                  <!-- Default inline 3-->
+                  <div class="custom-control custom-radio custom-control-inline">
+                    <input type="radio" class="custom-control-input" id="late{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="late" required="true" >
+                    <label class="custom-control-label" for="late{{$employee['employee_id']}}">Late</label>
+                  </div>
+
+                 <div class=" custom-control-inline">
+                   <input class="form-control form-control-sm" type="text" placeholder="Comment" name="attendance_comment[]{{$employee['employee_id']}}" >
+                 </div>
+                @else
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" class="custom-control-input" id="present{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="present"  required="true" checked>
+                  <input type="radio" class="custom-control-input" id="present{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="present" >
                   <label class="custom-control-label" for="present{{$employee['employee_id']}}">Present</label>
                 </div>
 
                 <!-- Default inline 2-->
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" class="custom-control-input" id="absent{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="absent" required="true" >
+                  <input type="radio" class="custom-control-input" id="absent{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="absent">
                   <label class="custom-control-label" for="absent{{$employee['employee_id']}}">Absent</label>
                 </div>
 
                 <!-- Default inline 3-->
                 <div class="custom-control custom-radio custom-control-inline">
-                  <input type="radio" class="custom-control-input" id="late{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="late" required="true" >
+                  <input type="radio" class="custom-control-input" id="late{{$employee['employee_id']}}" name="attendance_taking[]{{$employee['employee_id']}}" value="late">
                   <label class="custom-control-label" for="late{{$employee['employee_id']}}">Late</label>
                 </div>
 
                <div class=" custom-control-inline">
-                
                  <input class="form-control form-control-sm" type="text" placeholder="Comment" name="attendance_comment[]{{$employee['employee_id']}}" >
-                </div>
+               </div>
+                @endif
+
 
               </td>
 

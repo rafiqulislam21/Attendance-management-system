@@ -137,14 +137,14 @@ class attendanceController extends Controller
           $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->where('month',$month)->where('supervisor_id',$supervisor_id)->distinct('day')->count('day');
 
           $attendanceDetails[$i]['employee_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count('comment');
-          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('comment','!=',null)->get()->toArray();
+          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->where('comment','!=',null)->get()->toArray();
 
           $attendanceDetails[$i]['total_present_day'] = DB::table('_attendance')->where('status','present')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_absent_day'] = (int)($attendanceDetails[$i]['total_late_day']/3) + DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
 
-          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->get()->toArray();
-          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->get()->toArray();
+          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->where('month',$month)->where('year',$year)->get()->toArray();
+          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->where('month',$month)->where('year',$year)->get()->toArray();
 
           $attendanceDetails[$i]['total_present_percentage'] = (int)(($attendanceDetails[$i]['total_present_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_late_percentage'] =(int) (($attendanceDetails[$i]['total_late_day']/$attendanceDetails[$i]["total_day"])*100);
@@ -155,7 +155,7 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['employee_id'] = $value['employee_id'];
           $attendanceDetails[$i]['employee_name'] = $value['employee_name'];
           $attendanceDetails[$i]['employee_comment'] = $value['comment'];
-          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('comment','!=',null)->get()->toArray();
+          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->where('comment','!=',null)->get()->toArray();
 
           $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->where('day',$day)->where('supervisor_id',$supervisor_id)->distinct('day')->count('day');
 
@@ -163,9 +163,9 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_absent_day'] = (int)($attendanceDetails[$i]['total_late_day']/3) + DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
 
-          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->get()->toArray();
-          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->get()->toArray();
-          
+          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->where('month',$month)->where('year',$year)->get()->toArray();
+          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->where('month',$month)->where('year',$year)->get()->toArray();
+
           $attendanceDetails[$i]['total_present_percentage'] = (int)(($attendanceDetails[$i]['total_present_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_late_percentage'] = (int)(($attendanceDetails[$i]['total_late_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_absent_percentage'] =(int) (($attendanceDetails[$i]['total_absent_day']/$attendanceDetails[$i]["total_day"])*100);
@@ -209,12 +209,16 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['employee_name'] = $value['employee_name'];
 
           $attendanceDetails[$i]['employee_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count('comment');
+          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->where('comment','!=',null)->get()->toArray();
 
           $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->where('month',$month)->where('supervisor_id',$user_id)->distinct('day')->count('day');
 
           $attendanceDetails[$i]['total_present_day'] = DB::table('_attendance')->where('status','present')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_absent_day'] = (int)($attendanceDetails[$i]['total_late_day']/3) + DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->count();
+
+          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->where('month',$month)->where('year',$year)->get()->toArray();
+          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->where('month',$month)->where('year',$year)->get()->toArray();
 
           $attendanceDetails[$i]['total_present_percentage'] =(int) (($attendanceDetails[$i]['total_present_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_late_percentage'] = (int)(($attendanceDetails[$i]['total_late_day']/$attendanceDetails[$i]["total_day"])*100);
@@ -225,12 +229,16 @@ class attendanceController extends Controller
           $attendanceDetails[$i]['employee_id'] = $value['employee_id'];
           $attendanceDetails[$i]['employee_name'] = $value['employee_name'];
           $attendanceDetails[$i]['employee_comment'] = $value['comment'];
+          $attendanceDetails[$i]['employee_single_comment'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('month',$month)->where('year',$year)->where('comment','!=',null)->get()->toArray();
 
           $attendanceDetails[$i]["total_day"] = DB::table('_attendance')->where('day',$day)->where('supervisor_id',$user_id)->distinct('day')->count('day');
 
           $attendanceDetails[$i]['total_present_day'] = DB::table('_attendance')->where('status','present')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_late_day'] = DB::table('_attendance')->where('status','late')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
           $attendanceDetails[$i]['total_absent_day'] = (int)($attendanceDetails[$i]['total_late_day']/3) + DB::table('_attendance')->where('status','absent')->where('employee_id',$value['employee_id'])->where('day',$day)->where('month',$month)->where('year',$year)->count();
+
+          $attendanceDetails[$i]['total_late_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"late")->where('month',$month)->where('year',$year)->get()->toArray();
+          $attendanceDetails[$i]['total_absent_day_date'] = DB::table('_attendance')->where('employee_id',$value['employee_id'])->where('status',"absent")->where('month',$month)->where('year',$year)->get()->toArray();
 
           $attendanceDetails[$i]['total_present_percentage'] = (int)(($attendanceDetails[$i]['total_present_day']/$attendanceDetails[$i]["total_day"])*100);
           $attendanceDetails[$i]['total_late_percentage'] = (int)(($attendanceDetails[$i]['total_late_day']/$attendanceDetails[$i]["total_day"])*100);

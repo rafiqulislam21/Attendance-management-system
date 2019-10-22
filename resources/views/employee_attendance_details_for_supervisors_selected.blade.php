@@ -129,12 +129,116 @@ Employee-attendancee-details
               <td>{{$row['total_day']}}</td>
               <td>{{$row['total_present_day']}}</td>
               <td>{{$row['total_present_percentage']}} %</td>
-              <td>{{$row['total_late_day']}}</td>
+              <td><a href="#lateEmp{{$row['employee_id']}}" data-toggle="modal">{{$row['total_late_day']}}</a></td>
               <td>{{$row['total_late_percentage']}} %</td>
-              <td>{{$row['total_absent_day']}}</td>
+              <td><a href="#absentEmp{{$row['employee_id']}}" data-toggle="modal">{{$row['total_absent_day']}}</a></td>
               <td>{{$row['total_absent_percentage']}} %</td>
-              <td>{{$row['employee_comment']}}</td>
+              <td><a href="#commentEmp{{$row['employee_id']}}" data-toggle="modal">{{$row['employee_comment']}}</a></td>
             </tr>
+
+            <!-- view late Modal start -->
+            <div class="modal fade" id="lateEmp{{$row['employee_id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                <h5 class="modal-title text-primary"  id="exampleModalLabel"><i class="fas fa-eye"></i></i> View all late days</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <center><h1 class="display-3"><i class="far fa-user"></i></h1></center>
+                      <div class="form-group">
+                        <h1>{{$row['employee_name']}}</h1>
+                        @if($row['total_late_day_date'] != "")
+                          <ol>
+                            <p>Date--------------------------Status</p>
+
+                          @foreach($row['total_late_day_date'] as $row2)
+                            <li>{{$row2->day}}-{{$row2->month}}-{{$row2->year}} <span>--------> Late</li>
+
+                          @endforeach
+                        </ol>
+                        @endif
+                      </div>
+                      <div class="float-right">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">Ok</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- view late Modal end -->
+            <!-- view absent Modal start -->
+            <div class="modal fade" id="absentEmp{{$row['employee_id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                <h5 class="modal-title text-primary"  id="exampleModalLabel"><i class="fas fa-eye"></i></i> View all absent days</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <center><h1 class="display-3"><i class="far fa-user"></i></h1></center>
+                      <div class="form-group">
+                        <h1>{{$row['employee_name']}}</h1>
+                        @if($row['total_absent_day_date'] != "")
+                          <ol>
+                            <p>Date---------------------------Status</p>
+
+                          @foreach($row['total_absent_day_date'] as $row2)
+                            <li>{{$row2->day}}-{{$row2->month}}-{{$row2->year}} <span>--------> Absent</span></li>
+
+
+                          @endforeach
+                        </ol>
+                        @endif
+                      </div>
+                      <div class="float-right">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">Ok</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- view absent end -->
+            <!-- view comment Modal start -->
+            <div class="modal fade" id="commentEmp{{$row['employee_id']}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                  <div class="modal-header">
+                <h5 class="modal-title text-primary"  id="exampleModalLabel"><i class="fas fa-eye"></i></i> View all comments</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    <center><h1 class="display-3"><i class="far fa-user"></i></h1></center>
+                      <div class="form-group">
+                        <h1>{{$row['employee_name']}}</h1>
+                        @if($row['employee_single_comment'] != "")
+                          <ol>
+                            <p>Date------------------------Comment</p>
+
+                          @foreach($row['employee_single_comment'] as $row2)
+                            <li>{{$row2->day}}-{{$row2->month}}-{{$row2->year}} <span>--------> {{$row2->comment}}</span></li>
+
+
+                          @endforeach
+                        </ol>
+                        @endif
+                      </div>
+                      <div class="float-right">
+                        <button type="button" class="btn btn-outline-primary btn-sm" data-dismiss="modal">Ok</button>
+                      </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- view absent end -->
+
+
             @endforeach
           </tbody>
         </table>
